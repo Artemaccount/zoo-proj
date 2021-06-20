@@ -1,4 +1,5 @@
 import animals.*;
+import aviaries.Aviary;
 import aviaries.CarnAviary;
 import aviaries.HerbAviary;
 import aviaries.Size;
@@ -9,30 +10,33 @@ import workers.Worker;
 import java.io.IOException;
 
 public class Zoo {
+
     public static void main(String[] args) throws WrongFoodException {
 
-        HerbAviary<Herbivore> herbAviary = new HerbAviary<>(Size.HUGE);
-        CarnAviary<Carnivorous> carnAviary = new CarnAviary<>(Size.BIG);
-
-        Worker worker = new Worker();
-        Steak steak = new Steak();
         Lion lion = new Lion();
-        Giraffe giraffe = new Giraffe();
-        Bear bear = new Bear();
         Zebra zebra = new Zebra();
+        Elephant elephant = new Elephant();
+        Duck duck = new Duck();
+        Bear bear = new Bear();
 
-        herbAviary.addAnimal(giraffe);
+        Steak steak = new Steak();
+
+        Aviary<Herbivore> herbAviary = new Aviary<>("Травоядные", Size.MEDIUM);
+        Aviary<Carnivorous> carnAviary = new Aviary<>("Плотоядные", Size.BIG);
+
         herbAviary.addAnimal(zebra);
+        herbAviary.addAnimal(duck);
+        herbAviary.addAnimal(elephant);
 
         carnAviary.addAnimal(lion);
         carnAviary.addAnimal(bear);
-        carnAviary.delAnimal(lion);
-
-        carnAviary.print();
+        carnAviary.delAnimal(bear);
         herbAviary.print();
+        carnAviary.print();
 
         pressEnterToContinue();
-        worker.feed(steak, zebra);
+
+        zebra.eat(steak);
     }
 
     public static void pressEnterToContinue() {
