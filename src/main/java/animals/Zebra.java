@@ -1,13 +1,28 @@
 package animals;
 
+import aviaries.Size;
+import exceptions.WrongFoodException;
 import food.Food;
 import food.Grass;
 
 public class Zebra extends Herbivore implements Runnable, Voiceable {
     String name;
-    public Zebra(){
+    Size size;
+
+    public Zebra() {
         this.name = "Зебра";
+        this.size = Size.MEDIUM;
     }
+    @Override
+    public String getName() {
+        return this.name;
+    }
+
+    @Override
+    public Size getSize() {
+        return size;
+    }
+
     @Override
     public void run() {
         System.out.println("*Бежит*");
@@ -18,11 +33,11 @@ public class Zebra extends Herbivore implements Runnable, Voiceable {
         return "*Звук зебры*";
     }
 
-    public void eat(Food food) {
+    public void eat(Food food) throws WrongFoodException {
         if (food instanceof Grass) {
             System.out.println(this.name + " ест: " + food);
         } else {
-            System.out.println("Ошибка! Животное [" + this.name + "] не ест [" + food + "]");
+            throw new WrongFoodException("Ошибка! Животное [" + this.name + "] не ест [" + food + "]");
         }
     }
 }

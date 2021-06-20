@@ -1,42 +1,46 @@
 import animals.*;
-import food.Apple;
+import aviaries.CarnAviary;
+import aviaries.HerbAviary;
+import aviaries.Size;
+import exceptions.WrongFoodException;
 import food.Steak;
 import workers.Worker;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.IOException;
 
 public class Zoo {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws WrongFoodException {
 
-        Steak steak = new Steak();
-        Apple apple = new Apple();
-
-        Bear bear = new Bear();
-        Lion lion = new Lion();
-        Shark shark = new Shark();
-        Zebra zebra = new Zebra();
-        Duck duck = new Duck();
+        HerbAviary<Herbivore> herbAviary = new HerbAviary<>(Size.HUGE);
+        CarnAviary<Carnivorous> carnAviary = new CarnAviary<>(Size.BIG);
 
         Worker worker = new Worker();
+        Steak steak = new Steak();
+        Lion lion = new Lion();
+        Giraffe giraffe = new Giraffe();
+        Bear bear = new Bear();
+        Zebra zebra = new Zebra();
 
-        List<Animal> zoo = new ArrayList<>();
-        zoo.add(lion);
-        zoo.add(shark);
-        zoo.add(zebra);
-        zoo.add(bear);
+        herbAviary.addAnimal(giraffe);
+        herbAviary.addAnimal(zebra);
 
-        List<Swimmable> pond = new ArrayList<>();
-        pond.add(shark);
-        pond.add(duck);
+        carnAviary.addAnimal(lion);
+        carnAviary.addAnimal(bear);
+        carnAviary.delAnimal(lion);
 
-        pond.forEach(Swimmable::swim);
+        carnAviary.print();
+        herbAviary.print();
 
-        zoo.forEach(s -> worker.feed(apple, s));
-        zoo.forEach(s -> worker.feed(steak, s));
+        pressEnterToContinue();
+        worker.feed(steak, zebra);
+    }
 
-        worker.getVoice(bear);
-        worker.getVoice(zebra);
-
+    public static void pressEnterToContinue() {
+        System.out.println("Сейчас будет ошибка WrongFoodException, нажми Enter...");
+        try {
+            int read = System.in.read(new byte[2]);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
